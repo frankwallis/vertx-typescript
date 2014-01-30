@@ -1,24 +1,22 @@
-/// <reference path="./core.d.ts" />
-
-declare module "vertx/timer" /* implements ITimer */ {
+declare module "vertx/timer" /* implements Timer */ {
     
     export interface TimerId extends Number { }
 
-    export interface Handler {
+    export interface VoidHandler {
         (): void;
     }
 
     /*
      * Timer
      */
-    export interface ITimer {
+    interface Timer {
         cancelTimer(id: TimerId);
-        setPeriodic(millis: number, handler: Handler): TimerId;
-        setTimer(millis: number, handler: Handler): TimerId;
+        setPeriodic(millis: number, handler: VoidHandler): TimerId;
+        setTimer(millis: number, handler: VoidHandler): TimerId;
     }
 
-    /* implement ITimer */
+    /* implement Timer */
     export function cancelTimer(id: TimerId);
-    export function setPeriodic(millis: number, handler: Handler): TimerId;
-    export function setTimer(millis: number, handler: Handler): TimerId;
+    export function setPeriodic(millis: number, handler: VoidHandler): TimerId;
+    export function setTimer(millis: number, handler: VoidHandler): TimerId;
 }

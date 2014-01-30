@@ -1,67 +1,28 @@
 /// <reference path="./streams.d.ts" />
 /// <reference path="./multi_map.d.ts" />
 /// <reference path="./buffer.d.ts" />
+/// <reference path="./net.d.ts" />
 
 declare module "vertx/http" /* implements IHttp */ {
 
     import strms = require("vertx/streams");
     import mltmap = require("vertx/multi_map");
     import buffer = require("vertx/buffer");
+    import net = require("vertx/net");
 
     export interface Buffer { }
-
-    export interface VoidHandler {
-        (): void;
-    }
 
     export interface Handler<TMessage> {
         (message: TMessage): void;
     }
 
+    export interface VoidHandler extends Handler<void> { }
     export interface ResponseHandler extends Handler<HttpClientResponse> { }
     export interface RequestHandler extends Handler<HttpClientRequest> { }
     export interface BodyHandler extends Handler<Buffer> { }
 
-    interface HttpConnection<TThis, TRequest, TResponse> {
+    interface HttpConnection<TThis, TRequest, TResponse> extends net.TCPSupport<TThis>, net.SSLSupport<TThis> {
 
-        keyStorePassword(): string;
-        keyStorePassword(password: string): TThis;
-
-        keyStorePath(): string;
-        keyStorePath(path: string): TThis;
-
-        receiveBufferSize(): number;
-        receiveBufferSize(bufferSize: number): TThis;
-
-        reuseAddress(): boolean;
-        reuseAddress(reuse: boolean): TThis;
-
-        sendBufferSize(): number;
-        sendBufferSize(bufferSize: number): TThis;
-
-        soLinger(): boolean;
-        soLinger(linger: boolean): TThis;
-
-        ssl(): boolean;
-        ssl(ssl: boolean): TThis;
-
-        tcpKeepAlive(): boolean;
-        tcpKeepAlive(keepAlive: boolean): TThis;
-
-        tcpNoDelay(): boolean;
-        tcpNoDelay(noDelay: boolean): TThis;
-
-        trafficClass(): number;
-        trafficClass(traffic: number): TThis;
-
-        trustStorePassword(): string;
-        trustStorePassword(password: string): TThis;
-
-        trustStorePath(): string;
-        trustStorePath(password: string): HttpClient;
-
-        usePooledBuffers(): boolean;
-        usePooledBuffers(pooled: boolean): TThis;
     }
 
     export interface HttpClient extends HttpConnection<HttpClient, HttpClientRequest, HttpClientResponse> {
@@ -110,9 +71,11 @@ declare module "vertx/http" /* implements IHttp */ {
 
     }
 
+    /* aliases */
     interface MultiMap extends mltmap.MultiMap { }
     interface ReadStream<T> extends strms.ReadStream<T> { }
     interface WriteStream<T> extends strms.WriteStream<T> { }
+    interface NetSocket extends net.NetSocket { }
 
     export interface HttpClientResponse extends ReadStream<HttpClientResponse> {
         bodyHandler(handler: VoidHandler): HttpClientResponse;
@@ -121,8 +84,7 @@ declare module "vertx/http" /* implements IHttp */ {
         trailers(): MultiMap;
         statusCode(): number;
         statusMessage(): string;
-
-        //netSocket(): NetSocket;
+        netSocket(): NetSocket; 
     }
 
     export interface HttpServerRequest extends ReadStream<HttpServerRequest> {
@@ -137,13 +99,11 @@ declare module "vertx/http" /* implements IHttp */ {
         method(): string;
         version(): string;
         peerCertificationChain(): Array<any>;
-        //netSocket(): NetSocket;
+        netSocket(): NetSocket;
         remoteAddress: any; // java.net.InetSocketAddress
         expectMultiPart(expect: boolean): HttpServerRequest;
         uploadHandler(handler: Handler<HttpServerFileUpload>): HttpServerRequest;
-
         bodyHandler(handler: BodyHandler): HttpServerRequest;
-        //dataHandler(handler: BodyHandler): HttpServerRequest;
     }
 
     interface HttpOutgoing<TThis> extends WriteStream<TThis> {
@@ -226,3 +186,4 @@ declare module "vertx/http" /* implements IHttp */ {
     export function createHttpClient(): HttpClient;
     export function createHttpServer(): HttpServer;
 }
+

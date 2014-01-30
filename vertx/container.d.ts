@@ -1,8 +1,6 @@
-/// <reference path="./core.d.ts" />
+declare module "vertx/container" /* implements Container */ {
 
-declare module "vertx/container" /* implements IContainer */ {
-
-    export interface ILogger {
+    export interface Logger {
         trace(msg: string);
         debug(msg: string);
         info(msg: string);
@@ -18,18 +16,17 @@ declare module "vertx/container" /* implements IContainer */ {
         result(): T;
     }
 
-    export interface VoidHandler {
-        (): void;
+    export interface Handler<TMessage> {
+        (message: TMessage): void;
     }
 
-    export interface AsyncResultHandler<T> {
-        (result: AsyncResult<T>): void;
-    }
+    export interface VoidHandler extends Handler<void> { }
+    export interface AsyncResultHandler<T> extends Handler<AsyncResult<T>> { }
 
     export interface DeploymentId extends String { }
 
-    export interface IContainer {
-        logger: ILogger;
+    export interface Container {
+        logger: Logger;
         env: any;
         config: any;
 
@@ -50,7 +47,7 @@ declare module "vertx/container" /* implements IContainer */ {
         exit();
     }
 
-    export var logger: ILogger;
+    export var logger: Logger;
     export var env: any;
     export var config: any;
 

@@ -1,5 +1,3 @@
-/// <reference path="./core.d.ts" />
-
 declare module "vertx/streams" {
 
     export interface VoidHandler {
@@ -12,7 +10,7 @@ declare module "vertx/streams" {
 
     export interface BodyHandler extends Handler<Buffer> { }
 
-    export interface Buffer {
+    interface Buffer {
         new (str: string, encoding?: string): Buffer;
         new (sizeHint: number): Buffer;
         new (array: any[]): Buffer;
@@ -26,9 +24,9 @@ declare module "vertx/streams" {
     interface WriteStream<TThis> {
         drainHandler(handler: VoidHandler): TThis;
         exceptionHandler(handler: VoidHandler): TThis;
-        writeQueueMaxSize(max: number): TThis;
-        writeBuffer(data: Buffer): TThis; // <--- TODO check this - renamed from write as it's incompatible with HTTPClientRequest.write
+        writeBuffer(data: Buffer): TThis; // <--- TODO check this - renamed from write as it's incompatible with HTTPClientRequest.write will probably work as long as Buffer and string are distinguishable ie Buffer is a class not an interface
         writeQueueFull: boolean;
+        writeQueueMaxSize(max: number): TThis;
     }
      
     interface ReadStream<TThis> {
@@ -36,6 +34,6 @@ declare module "vertx/streams" {
         endHandler(handler: VoidHandler): TThis;
         exceptionHandler(handler: VoidHandler): TThis;
         pause(): TThis;
-        resume: TThis;
+        resume(): TThis;
     }
 }

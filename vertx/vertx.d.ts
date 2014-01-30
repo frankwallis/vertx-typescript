@@ -1,42 +1,42 @@
-/// <reference path="./core.d.ts" />
 /// <reference path="./event_bus.d.ts" />
 /// <reference path="./timer.d.ts" />
+/// <reference path="./http.d.ts" />
+/// <reference path="./net.d.ts" />
+/// <reference path="./sockJS.d.ts" />
 
-declare module "vertx" /* implements IVertx */ {
+declare module "vertx" /* implements IVertxStatic */ {
 
-    export interface Address {
-	    ipaddress: string;
-	    port: number;
-    }
+    //export interface Address {
+    //    ipaddress: string;
+    //    port: number;
+    //}
 
 
     //declare var Buffer: {
-    export interface Buffer {
-        new (str: string, encoding?: string): Buffer;
-        new (sizeHint: number): Buffer;
-        new (array: any[]): Buffer;
-	
-	    length(): number;
-	    appendBuffer(buff: Buffer): Buffer;
-	    appendBuffer(str: string): Buffer;
-	    copy(): Buffer;
-    }
+    //export interface Buffer {
+    //    new (str: string, encoding?: string): Buffer;
+    //    new (sizeHint: number): Buffer;
+    //    new (array: any[]): Buffer;
 
-    //export interface BodyHandler {
-	//    (body: Buffer): void;
+    //    length(): number;
+    //    appendBuffer(buff: Buffer): Buffer;
+    //    appendBuffer(str: string): Buffer;
+    //    copy(): Buffer;
     //}
 
-    //import eb = require("vertx/event_bus");
-    //import timer = require("vertx/timer");
+    //export interface BodyHandler {
+    //    (body: Buffer): void;
+    //}
 
-    //export interface IVertx extends timer.ITimer {
-    //    eventBus: eb.EventBus;
+    interface IVertxStatic {
+        eventBus: eventBus.EventBus;
+        timer: timer.Timer;
+        http: http.IHttpStatic;
+        net: net.INetStatic;
+        sockJS: sockJS.ISockJSStatic;
+    }
 
-//    }
-
-    /* implement IVertx as required */
-    //export var eventBus: eb.EventBus;
-
+    /* implement IVertxStatic as required */
     export import eventBus = require('vertx/event_bus');
     export import timer = require('vertx/timer');
     export import http = require('vertx/http');

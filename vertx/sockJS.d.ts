@@ -1,10 +1,8 @@
-/// <reference path="./core.d.ts" />
-
-declare module "vertx/sockJS" /* implements ISockJS */ {
+declare module "vertx/sockJS" /* implements ISockJSStatic */ {
     /*
-     * Net
+     * SockJS
      */
-    export interface ISockJS {
+    export interface ISockJSStatic {
 
     }
 

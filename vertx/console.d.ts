@@ -1,10 +1,10 @@
 /// <reference path="./core.d.ts" />
 
-declare module "vertx/console" /* implements IConsole */ {
+declare module "vertx/console" /* implements Console */ {
     /*
      * Console
      */
-    export interface IConsole {
+    export interface Console {
         log(msg: string);
         warn(msg: string);
         error(msg: string);

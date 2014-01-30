@@ -3,6 +3,8 @@ declare module "vertx/multi_map" {
      * MultiMap
      */
     export interface MultiMap {
+        new (original: MultiMap): MultiMap;
+
         add(name: string, value: string): MultiMap;
         clear(): MultiMap;
         contains(name: string): boolean;
