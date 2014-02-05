@@ -3,7 +3,7 @@
 
 declare module Vertx {
     /* Pump */
-    interface Pump {
+    class Pump {
         new (readStream: ReadStream<any>, writeStream: WriteStream<any>): Pump;
 
         bytesPumped(): number;
@@ -14,6 +14,6 @@ declare module Vertx {
 }
 
 declare module "vertx/pump" {
-    export interface Pump extends Vertx.Pump { }
+    export class Pump extends Vertx.Pump { }
 }
 

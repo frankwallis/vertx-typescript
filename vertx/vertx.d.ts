@@ -22,8 +22,8 @@ declare module "vertx" /* implements VertxStatic */ {
         runOnContext(handler: Vertx.VoidHandler);
     }
 
-    export import Buffer = require('vertx/buffer');
-    export import Pump = require('vertx/pump');
+    export class Buffer extends Vertx.Buffer { }
+    export class Pump extends Vertx.Pump { }
 
     export var timer: Vertx.Timer;
     export var http: Vertx.HttpStatic;
