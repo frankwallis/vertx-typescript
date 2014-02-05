@@ -3,45 +3,39 @@
 /// <reference path="./http.d.ts" />
 /// <reference path="./net.d.ts" />
 /// <reference path="./sockJS.d.ts" />
+/// <reference path="./shared_data.d.ts" />
+/// <reference path="./file_system.d.ts" />
+/// <reference path="./parse_tools.d.ts" />
 
-declare module "vertx" /* implements IVertxStatic */ {
+declare module "vertx" /* implements VertxStatic */ {
 
-    //export interface Address {
-    //    ipaddress: string;
-    //    port: number;
-    //}
-
-
-    //declare var Buffer: {
-    //export interface Buffer {
-    //    new (str: string, encoding?: string): Buffer;
-    //    new (sizeHint: number): Buffer;
-    //    new (array: any[]): Buffer;
-
-    //    length(): number;
-    //    appendBuffer(buff: Buffer): Buffer;
-    //    appendBuffer(str: string): Buffer;
-    //    copy(): Buffer;
-    //}
-
-    //export interface BodyHandler {
-    //    (body: Buffer): void;
-    //}
-
-    interface IVertxStatic {
-        eventBus: eventBus.EventBus;
-        timer: timer.Timer;
-        http: http.IHttpStatic;
-        net: net.INetStatic;
-        sockJS: sockJS.ISockJSStatic;
+    interface VertxStatic {
+        eventBus: Vertx.EventBus;
+        timer: Vertx.Timer;
+        http: Vertx.HttpStatic;
+        net: Vertx.NetStatic;
+        sockJS: Vertx.SockJSStatic;
+        sharedData: Vertx.SharedData;
+        fileSystem: Vertx.FileSystem;
+        parseTools: Vertx.ParseTools;
+        
+        runOnContext(handler: Vertx.VoidHandler);
     }
 
-    /* implement IVertxStatic as required */
-    export import eventBus = require('vertx/event_bus');
-    export import timer = require('vertx/timer');
-    export import http = require('vertx/http');
-    export import net = require('vertx/net');
-    export import sockJS = require('vertx/sockJS');
+    export import Buffer = require('vertx/buffer');
+    export import Pump = require('vertx/pump');
+
+    export var timer: Vertx.Timer;
+    export var http: Vertx.HttpStatic;
+    export var net: Vertx.NetStatic;
+    export var eventBus: Vertx.EventBus;
+    export var sockJS: Vertx.SockJSStatic;
+    export var sharedData: Vertx.SharedData;
+    export var fileSystem: Vertx.FileSystem;
+    export var parseTools: Vertx.ParseTools;
+
+    export function runOnContext(handler: Vertx.VoidHandler);
+    export function currentContext(): any; // not sure if this should be exposed   
 }
 
 

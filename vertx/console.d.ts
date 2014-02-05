@@ -1,16 +1,14 @@
-/// <reference path="./core.d.ts" />
+/// <reference path="./types.d.ts" />
 
-declare module "vertx/console" /* implements Console */ {
-    /*
-     * Console
-     */
-    export interface Console {
+declare module Vertx {
+    interface Console {
         log(msg: string);
         warn(msg: string);
         error(msg: string);
     }
+}
 
-	export function log(msg: string);
-	export function warn(msg: string);
-	export function error(msg: string);
+declare module "vertx/console" /* implements Console */ {
+    var __console__: Vertx.Console;
+    export = __console__;
 }

@@ -1,14 +1,10 @@
-declare module "vertx/event_bus" /* implements EventBus */ {
+/// <reference path="./types.d.ts" />
 
-    export interface JSONMessage extends Object { }
+declare module Vertx {
+    interface JSONMessage extends Object { }
 
-    export interface MessageHandler {
-        (msg: JSONMessage): void;
-    }
+    interface MessageHandler extends Handler<JSONMessage> { }
 
-    /*
-     * Event Bus
-     */
     interface EventBus {
         publish(address: string, message: any);
         send(address: string, message: any, handler?: MessageHandler);
@@ -16,11 +12,9 @@ declare module "vertx/event_bus" /* implements EventBus */ {
         registerLocalHandler(address: string, handler: MessageHandler);
         unregisterHandler(address: string, handler: MessageHandler);
     }
+}
 
-    /* implement IEventBus */
-    export function publish(address: string, message: any);
-    export function send(address: string, message: any, handler?: MessageHandler);
-    export function registerHandler(address: string, handler: MessageHandler);
-    export function registerLocalHandler(address: string, handler: MessageHandler);
-    export function unregisterHandler(address: string, handler: MessageHandler);
+declare module "vertx/event_bus" {
+    var __eventBus__: Vertx.EventBus;
+    export = __eventBus__;
 }

@@ -1,8 +1,8 @@
-declare module "vertx/net" /* implements INetStatic */ {
+/// <reference path="./types.d.ts" />
+/// <reference path="./streams.d.ts" />
 
-    import strms = require("vertx/streams");
-
-    export interface TCPSupport<TThis> {
+declare module Vertx {
+    interface TCPSupport<TThis> {
         receiveBufferSize(): number;
         receiveBufferSize(bufferSize: number): TThis;
 
@@ -28,12 +28,12 @@ declare module "vertx/net" /* implements INetStatic */ {
         usePooledBuffers(pooled: boolean): TThis;
     }
 
-    export interface ServerTCPSupport<TThis> extends TCPSupport<TThis> {
+    interface ServerTCPSupport<TThis> extends TCPSupport<TThis> {
         acceptBacklog(backlog: number): TThis;
         acceptBacklog(): number;
     }
 
-    export interface SSLSupport<TThis> {
+    interface SSLSupport<TThis> {
         keyStorePassword(): string;
         keyStorePassword(password: string): TThis;
 
@@ -50,29 +50,24 @@ declare module "vertx/net" /* implements INetStatic */ {
         ssl(ssl: boolean): TThis;
     }
 
-    export interface ServerSSLSupport<TThis> extends SSLSupport<TThis>{
+    interface ServerSSLSupport<TThis> extends SSLSupport<TThis> {
         clientAuthRequired(required: boolean): TThis;
         clientAuthRequired(): boolean;
     }
 
-    export interface Handler<TMessage> {
-        (message: TMessage): void;
-    }
+    interface ListenHandler extends Vertx.VoidHandler { }
+    interface ConnectHandler extends Vertx.Handler<NetSocket> { }
 
-    export interface VoidHandler extends Handler<void> { }
-    export interface ListenHandler extends Handler<void> { }
-    export interface ConnectHandler extends Handler<NetSocket> { }
-
-    export interface NetServer extends ServerTCPSupport<NetServer>, ServerSSLSupport<NetServer> {
+    interface NetServer extends ServerTCPSupport<NetServer>, ServerSSLSupport<NetServer> {
         new (): NetServer;
         listen(port: number, host?: string, handler?: ListenHandler): NetServer;
         connectHandler(handler: ConnectHandler): NetServer;
         host(): string;
         port(): number;
-        close(handler: VoidHandler);
+        close(handler: Vertx.VoidHandler);
     }
 
-    export interface NetClient extends TCPSupport<NetClient>, SSLSupport<NetClient> {
+    interface NetClient extends TCPSupport<NetClient>, SSLSupport<NetClient> {
         new (): NetClient;
 
         connect(port: number, host?: string, connectHandler?: ConnectHandler);
@@ -81,27 +76,27 @@ declare module "vertx/net" /* implements INetStatic */ {
         connectTimeout(millis: number): NetClient;
     }
 
-    interface ReadStream<T> extends strms.ReadStream<T> { }
-    interface WriteStream<T> extends strms.WriteStream<T> { }
-
-    export interface NetSocket extends ReadStream<NetSocket>, WriteStream<NetSocket> {
+    interface NetSocket extends ReadStream<NetSocket>, WriteStream<NetSocket> {
         close();
-        closeHandler(handler: VoidHandler): NetSocket;
+        closeHandler(handler: Vertx.VoidHandler): NetSocket;
         localAddress(): string;
         remoteAddress(): string;
         sendFile(filename: string): NetSocket;
+        write(data: Buffer): NetSocket;
         write(chunk: string, encoding?: string): NetSocket;
         writeHandlerID();
     }
 
     /*
-     * INetStatic
+     * NetStatic
      */
-    export interface INetStatic {
+    interface NetStatic {
         createNetServer(): NetServer;
         createNetClient(): NetClient;
     }
+}
 
-    export function createNetServer(): NetServer;
-    export function createNetClient(): NetClient;
+declare module "vertx/net" /* implements NetStatic */ {
+    var __net__: Vertx.NetStatic;
+    export = __net__;
 }

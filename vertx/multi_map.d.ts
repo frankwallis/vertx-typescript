@@ -1,8 +1,5 @@
-declare module "vertx/multi_map" {
-    /*
-     * MultiMap
-     */
-    export interface MultiMap {
+declare module Vertx {
+    interface MultiMap {
         new (original: MultiMap): MultiMap;
 
         add(name: string, value: string): MultiMap;
@@ -18,4 +15,8 @@ declare module "vertx/multi_map" {
         setMap(map: MultiMap): MultiMap;
         size(): number;
     }
+}
+
+declare module "vertx/multi_map" {
+    export interface MultiMap extends Vertx.MultiMap { }
 }

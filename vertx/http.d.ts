@@ -1,31 +1,18 @@
+/// <reference path="./types.d.ts" />
 /// <reference path="./streams.d.ts" />
 /// <reference path="./multi_map.d.ts" />
 /// <reference path="./buffer.d.ts" />
 /// <reference path="./net.d.ts" />
 
-declare module "vertx/http" /* implements IHttp */ {
+declare module Vertx {
 
-    import strms = require("vertx/streams");
-    import mltmap = require("vertx/multi_map");
-    import buffer = require("vertx/buffer");
-    import net = require("vertx/net");
+    interface ResponseHandler extends Handler<HttpClientResponse> { }
 
-    export interface Buffer { }
+    interface RequestHandler extends Handler<HttpClientRequest> { }
 
-    export interface Handler<TMessage> {
-        (message: TMessage): void;
-    }
+    interface WebSocketHandler extends Handler<WebSocket> { }
 
-    export interface VoidHandler extends Handler<void> { }
-    export interface ResponseHandler extends Handler<HttpClientResponse> { }
-    export interface RequestHandler extends Handler<HttpClientRequest> { }
-    export interface BodyHandler extends Handler<Buffer> { }
-
-    interface HttpConnection<TThis, TRequest, TResponse> extends net.TCPSupport<TThis>, net.SSLSupport<TThis> {
-
-    }
-
-    export interface HttpClient extends HttpConnection<HttpClient, HttpClientRequest, HttpClientResponse> {
+    interface HttpClient extends TCPSupport<HttpClient>, SSLSupport<HttpClient> {
         /* control */
         connect(uri: string, handler: ResponseHandler): HttpClientRequest;
         connectWebSocket(uri: string, handler: ResponseHandler);
@@ -57,9 +44,6 @@ declare module "vertx/http" /* implements IHttp */ {
         port(): number;
         port(port: number): HttpClient;
 
-        reuseAddress(): boolean;
-        reuseAddress(reuse: boolean): HttpClient;
-
         trustAll(): boolean;
         trustAll(trust: boolean): HttpClient;
 
@@ -67,27 +51,24 @@ declare module "vertx/http" /* implements IHttp */ {
         verifyHost(verify: boolean): HttpClient;
     }
 
-    export interface HttpServer extends HttpConnection<HttpServer, HttpServerRequest, HttpServerResponse> {
-
+    interface HttpServer extends ServerTCPSupport<HttpServer>, ServerSSLSupport<HttpServer> {
+        close(handler?: Vertx.VoidHandler);
+        listen(port: number, host?: string, handler?: ListenHandler): HttpServer;
+        requestHandler(handler: RequestHandler): HttpServer;
+        webSocketHandler(handler: WebSocketHandler): HttpServer;
     }
 
-    /* aliases */
-    interface MultiMap extends mltmap.MultiMap { }
-    interface ReadStream<T> extends strms.ReadStream<T> { }
-    interface WriteStream<T> extends strms.WriteStream<T> { }
-    interface NetSocket extends net.NetSocket { }
-
-    export interface HttpClientResponse extends ReadStream<HttpClientResponse> {
+    interface HttpClientResponse extends ReadStream<HttpClientResponse> {
         bodyHandler(handler: VoidHandler): HttpClientResponse;
         cookies(): Array<any>;
         headers(): MultiMap;
         trailers(): MultiMap;
         statusCode(): number;
         statusMessage(): string;
-        netSocket(): NetSocket; 
+        netSocket(): NetSocket;
     }
 
-    export interface HttpServerRequest extends ReadStream<HttpServerRequest> {
+    interface HttpServerRequest extends ReadStream<HttpServerRequest> {
         response: HttpServerResponse;
         absoluteURI(): string;
         formAttributes(): MultiMap;
@@ -110,7 +91,8 @@ declare module "vertx/http" /* implements IHttp */ {
         chunked(): boolean;
         chunked(chunked: boolean): TThis;
 
-        write(chunk: string, encoding?: string): TThis;
+        write(data: Buffer): TThis;
+        write(chunk: any, encoding?: number);
         end(chunk?: string, encoding?: string);
 
         headers(): MultiMap;
@@ -118,12 +100,12 @@ declare module "vertx/http" /* implements IHttp */ {
         sendHead();
     }
 
-    export interface HttpClientRequest extends HttpOutgoing<HttpClientRequest> {
+    interface HttpClientRequest extends HttpOutgoing<HttpClientRequest> {
         continueHandler(handler: VoidHandler): HttpClientRequest;
         timeout(millis: number): HttpClientRequest;
     }
 
-    export interface HttpServerResponse extends HttpOutgoing<HttpServerResponse> {
+    interface HttpServerResponse extends HttpOutgoing<HttpServerResponse> {
         trailers(): MultiMap;
         putTrailer(trailerName: string, trailerValue: string): HttpServerResponse;
 
@@ -136,7 +118,7 @@ declare module "vertx/http" /* implements IHttp */ {
         statusMessage(): string;
     }
 
-    export interface HttpServerFileUpload extends ReadStream<HttpServerFileUpload> {
+    interface HttpServerFileUpload extends ReadStream<HttpServerFileUpload> {
         charset(): string;
         contentTransferEncoding(): string;
         contentType(): string;
@@ -146,7 +128,7 @@ declare module "vertx/http" /* implements IHttp */ {
         streamToFileSystem(filename: string): HttpServerFileUpload;
     }
 
-    export interface RouteMatcher {
+    interface RouteMatcher {
         new (): RouteMatcher;
         all(pattern: string, handler: RequestHandler): RouteMatcher;
         allWithRegEx(pattern: string, handler: RequestHandler): RouteMatcher;
@@ -171,19 +153,30 @@ declare module "vertx/http" /* implements IHttp */ {
         noMatch(handler: RequestHandler): RouteMatcher;
     }
 
-    export interface WebSocket {
-
+    interface WebSocket extends ReadStream<WebSocket>, WriteStream<WebSocket> {
+        binaryHandlerID(): string;
+        textHandlerID(): string;
+        close();
+        closeHandler(handler: VoidHandler): WebSocket;
+        headers(): MultiMap;
+        path(): string;
+        reject(): WebSocket;
+        write(data: Buffer): WebSocket;
+        writeBinaryFrame(data: Buffer);
+        writeTextFrame(data: Buffer);
     }
 
     /*
-     * IHttpStatic
+     * HttpStatic
      */
-    interface IHttpStatic {
+    interface HttpStatic {
         createHttpClient(): HttpClient;
         createHttpServer(): HttpServer;
     }
+}
 
-    export function createHttpClient(): HttpClient;
-    export function createHttpServer(): HttpServer;
+declare module "vertx/http" {
+    var __http__: Vertx.HttpStatic;
+    export = __http__;
 }
 

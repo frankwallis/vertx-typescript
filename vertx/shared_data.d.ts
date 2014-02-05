@@ -1,19 +1,18 @@
-/// <reference path="./core.d.ts" />
+/// <reference path="./types.d.ts" />
 
-declare module "vertx/shared_data" /* implements ISharedData */ {
+declare module Vertx {
     /*
      * Shared Data
      */
-    export interface ISharedData {
+    interface SharedData {
         getMap(name: string): any;
         removeMap(name: string): boolean;
         getSet(name: string): Array<any>;
         removeSet(name: string): boolean;
     }
+}
 
-    /* implement ISharedData */
-    export function getMap(name: string): any;
-    export function removeMap(name: string): boolean;
-    export function getSet(name: string): Array<any>;
-    export function removeSet(name: string): boolean;
+declare module "vertx/shared_data" /* implements SharedData */ {
+    var __shareddata__: Vertx.SharedData;
+    export = __shareddata__;
 }
