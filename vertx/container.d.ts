@@ -18,7 +18,7 @@ declare module Vertx {
     interface AsyncResult<T> {
         failed: boolean;
         succeeded: boolean;
-        cause(): any;
+        cause(): JavaException;
         result(): T;
     }
 
