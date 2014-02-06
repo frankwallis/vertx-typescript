@@ -42,6 +42,9 @@ declare module Vertx {
         chmod(path: string, perms: string, handler: ResultHandler): FileSystem;
         chmod(path: string, perms: string, dir_perms: string, handler: ResultHandler): FileSystem;
         chmodSync(path: string, perms: string, dir_perms?: string): FileSystem;
+        chown(path: string, user: string, handler: ResultHandler): FileSystem;
+        chown(path: string, user: string, group: string, handler: ResultHandler): FileSystem;
+        chownSync(path: string, user: string, group?: string): FileSystem;
         copy(from: string, to: string, handler: ResultHandler): FileSystem;
         copy(from: string, to: string, recursive: boolean, handler: ResultHandler): FileSystem;
         copySync(from: string, to: string, recursive?: boolean): FileSystem;
