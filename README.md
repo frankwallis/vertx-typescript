@@ -12,7 +12,7 @@ Buffer and Pump are exposed as classes which can be created from your code.
 JSDocs for vert.x can be found here: http://vertx.io/api/javascript/module-vertx.html
 
 Example usage:
-
+```typescript
 /// <reference path="../vertx/vertx.d.ts" />
 /// <reference path="../vertx/console.d.ts" />
 
@@ -32,4 +32,5 @@ vertx.net.createNetServer().connectHandler((sock) => {
         connections.splice(connections.indexOf(sock), 1)
         });
 }).listen(1234);
+```
 
