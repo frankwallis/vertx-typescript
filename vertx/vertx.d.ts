@@ -1,3 +1,8 @@
+// Type definitions for vert.x
+// Project: http://vertx.io
+// Definitions by: Frank Wallis <https://github.com/frankwallis>
+// Definitions: https://github.com/borisyankov/DefinitelyTyped
+
 /// <reference path="./event_bus.d.ts" />
 /// <reference path="./timer.d.ts" />
 /// <reference path="./http.d.ts" />

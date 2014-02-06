@@ -1,3 +1,8 @@
+// Type definitions for vert.x
+// Project: http://vertx.io
+// Definitions by: Frank Wallis <https://github.com/frankwallis>
+// Definitions: https://github.com/borisyankov/DefinitelyTyped
+
 declare module Vertx {
     interface MultiMap {
         new (original: MultiMap): MultiMap;
