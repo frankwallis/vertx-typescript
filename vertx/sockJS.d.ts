@@ -6,8 +6,19 @@
 /// <reference path="./types.d.ts" />
 
 declare module Vertx {
-    interface SockJSSocket extends Object {
+    interface LocalAddress {
+        address: string;
+        port: number;
+        getHostString(): string;
+        getPort(): number;
+    }
 
+    interface SockJSSocket extends ReadStream<SockJSSocket>, WriteStream<SockJSSocket> {
+        writeHandlerId(): string;
+        close();
+        localAddress(): LocalAddress;
+        headers(): MultiMap;
+        uri(): string;
     }
 
     interface SockJSHandler extends Handler<SockJSSocket> { }
