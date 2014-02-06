@@ -8,6 +8,7 @@
 /// <reference path="./http.d.ts" />
 /// <reference path="./net.d.ts" />
 /// <reference path="./sockJS.d.ts" />
+/// <reference path="./pump.d.ts" />
 /// <reference path="./shared_data.d.ts" />
 /// <reference path="./file_system.d.ts" />
 /// <reference path="./parse_tools.d.ts" />
@@ -27,8 +28,11 @@ declare module "vertx" /* implements VertxStatic */ {
         runOnContext(handler: Vertx.VoidHandler);
     }
 
-    export class Buffer extends Vertx.Buffer { }
-    export class Pump extends Vertx.Pump { }
+    import __buffer__ = require("vertx/buffer");
+    export class Buffer extends __buffer__ { }
+        
+    import __pump__ = require("vertx/pump");
+    export class Pump extends __pump__.Pump { }
 
     export var timer: Vertx.Timer;
     export var http: Vertx.HttpStatic;

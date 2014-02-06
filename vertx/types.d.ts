@@ -6,22 +6,7 @@
 declare module Vertx {
 
     /* Buffer */
-    interface Buffer1 {
-        new (str: string, encoding?: string): Buffer;
-        new (sizeHint: number): Buffer;
-        new (array: any[]): Buffer;
-
-        length(): number;
-        appendBuffer(buff: Buffer): Buffer;
-        appendBuffer(str: string): Buffer;
-        copy(): Buffer;
-    }
-
-    class Buffer {
-        new (str: string, encoding?: string): Buffer;
-        new (sizeHint: number): Buffer;
-        new (array: any[]): Buffer;
-
+    interface Buffer {
         length(): number;
         appendBuffer(buff: Buffer): Buffer;
         appendBuffer(str: string): Buffer;
