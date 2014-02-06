@@ -7,6 +7,11 @@
 /// <reference path="./streams.d.ts" />
 
 declare module Vertx {
+    interface Address {
+        ipaddress: string;
+        port: number;
+    }
+
     interface TCPSupport<TThis> {
         receiveBufferSize(): number;
         receiveBufferSize(bufferSize: number): TThis;
@@ -84,8 +89,8 @@ declare module Vertx {
     interface NetSocket extends ReadStream<NetSocket>, WriteStream<NetSocket> {
         close();
         closeHandler(handler: Vertx.VoidHandler): NetSocket;
-        localAddress(): string;
-        remoteAddress(): string;
+        localAddress(): Address;
+        remoteAddress(): Address;
         sendFile(filename: string): NetSocket;
         write(data: Buffer): NetSocket;
         write(chunk: string, encoding?: string): NetSocket;

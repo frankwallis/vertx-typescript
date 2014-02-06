@@ -7,10 +7,7 @@
 /// <reference path="./streams.d.ts" />
 
 declare module Vertx {
-    /* Pump */
-    class Pump {
-        new (readStream: ReadStream<any>, writeStream: WriteStream<any>): Pump;
-
+    interface Pump {
         bytesPumped(): number;
         setWriteQueueMaxSize(bytes: number): Pump;
         start(): Pump;
@@ -19,6 +16,12 @@ declare module Vertx {
 }
 
 declare module "vertx/pump" {
-    export class Pump extends Vertx.Pump { }
+    export class Pump implements Vertx.Pump {
+        constructor(readStream: Vertx.ReadStream<any>, writeStream: Vertx.WriteStream<any>);
+        bytesPumped(): number;
+        setWriteQueueMaxSize(bytes: number): Pump;
+        start(): Pump;
+        stop(): Pump;
+    }
 }
 
