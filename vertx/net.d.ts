@@ -88,7 +88,7 @@ declare module Vertx {
 
     interface NetSocket extends ReadStream<NetSocket>, WriteStream<NetSocket> {
         close();
-        closeHandler(handler: Vertx.VoidHandler): NetSocket;
+        closeHandler(handler: Vertx.ExceptionHandler): NetSocket;
         localAddress(): Address;
         remoteAddress(): Address;
         sendFile(filename: string): NetSocket;

@@ -42,6 +42,10 @@ declare module Vertx {
         setString(pos: number, str: string, encoding?: string): Vertx.Buffer;
     }
 
+    interface JavaException {
+        getMessage(): string;   
+    }
+
     /* Handlers */
     interface Handler<TMessage> {
         (message: TMessage): void;
@@ -51,7 +55,9 @@ declare module Vertx {
 
     interface BodyHandler extends Handler<Buffer> { }
 
-    interface ResultHandler {
-        (cause: any, result: any): void;
+    interface ExceptionHandler extends Handler<JavaException> { }
+
+    interface ResultHandler<T> {
+        (cause: JavaException, result: T): void;
     }
 }

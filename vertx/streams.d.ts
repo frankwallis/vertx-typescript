@@ -9,7 +9,7 @@
 declare module Vertx {
     interface WriteStream<TThis> {
         drainHandler(handler: VoidHandler): TThis;
-        exceptionHandler(handler: VoidHandler): TThis;
+        exceptionHandler(handler: ExceptionHandler): TThis;
         // This method causes issues because of overloads in subinterfaces, so needs to be defined there
         //write(data: Buffer): TThis;
         writeQueueFull: boolean;
@@ -19,7 +19,7 @@ declare module Vertx {
     interface ReadStream<TThis> {
         dataHandler(handler: BodyHandler): TThis;
         endHandler(handler: VoidHandler): TThis;
-        exceptionHandler(handler: VoidHandler): TThis;
+        exceptionHandler(handler: ExceptionHandler): TThis;
         pause(): TThis;
         resume(): TThis;
     }
