@@ -11,7 +11,7 @@ var buffer = new vertx.Buffer();
 buffer.appendInt(1);
 
 function IncrementNumber(buff: Vertx.Buffer) {
-    buff.setInt(0, buffer.getInt(0) + 1);
+    buff.setInt(0, buff.getInt(0) + 1);
 }
 
 function CancelTimer(id: Vertx.TimerId) {
