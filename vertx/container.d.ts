@@ -42,7 +42,14 @@ declare module Vertx {
         deployVerticle(name: string, instances: number, handler?: AsyncResultHandler<DeploymentId>);
         deployVerticle(name: string, instances: number, config: any, handler?: AsyncResultHandler<DeploymentId>);
 
-        deployWorkerVerticle(name: string, instances?: number, config?: any, handler?: AsyncResultHandler<DeploymentId>, multithreaded?: boolean);
+        deployWorkerVerticle(name: string, handler?: AsyncResultHandler<DeploymentId>);
+        deployWorkerVerticle(name: string, instances: number, handler?: AsyncResultHandler<DeploymentId>);
+        deployWorkerVerticle(name: string, config: any, handler?: AsyncResultHandler<DeploymentId>);
+        deployWorkerVerticle(name: string, multithreaded: boolean, handler?: AsyncResultHandler<DeploymentId>);
+        deployWorkerVerticle(name: string, instances: number, config: any, handler?: AsyncResultHandler<DeploymentId>);
+        deployWorkerVerticle(name: string, instances: number, multithreaded: boolean, handler?: AsyncResultHandler<DeploymentId>);
+        deployWorkerVerticle(name: string, config: any, multithreaded: boolean, handler?: AsyncResultHandler<DeploymentId>);
+
         undeployVerticle(id: DeploymentId, doneHandler?: VoidHandler);
 
         exit();
