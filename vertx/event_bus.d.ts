@@ -6,9 +6,7 @@
 /// <reference path="./types.d.ts" />
 
 declare module Vertx {
-    interface JSONMessage extends Object { }
-
-    interface MessageHandler extends Handler<JSONMessage> { }
+    interface MessageHandler extends Handler<any> { }
 
     interface EventBus {
         publish(address: string, message: any);
