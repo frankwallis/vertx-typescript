@@ -10,14 +10,14 @@ declare module Vertx {
 	interface EventBusBridge {
 		// these could be inherited from Vertx.EventBus but the bridge does not observer the fluent interfaces
         publish(address: string, message: any);
-        send(address: string, message: any, handler?: Vertx.MessageHandler);
-        registerHandler(address: string, handler: Vertx.MessageHandler);
-        registerLocalHandler(address: string, handler: Vertx.MessageHandler);
-        unregisterHandler(address: string, handler: Vertx.MessageHandler);
+        send<T>(address: string, message: any, handler?: Vertx.MessageHandler<T>);
+        registerHandler<T>(address: string, handler: Vertx.MessageHandler<T>);
+        registerLocalHandler<T>(address: string, handler: Vertx.MessageHandler<T>);
+        unregisterHandler<T>(address: string, handler: Vertx.MessageHandler<T>);
 
 		onopen: VoidHandler;
 		onclose: VoidHandler;
-		login(username: string, password: string, handler?: MessageHandler);
+		login(username: string, password: string, handler?: Handler<any>);
 		close();
     }
 }
@@ -31,13 +31,13 @@ declare module vertx {
          				protocols_whitelist: string[]; });
 
         publish(address: string, message: any);
-        send(address: string, message: any, handler?: Vertx.MessageHandler);
-        registerHandler(address: string, handler: Vertx.MessageHandler);
-        registerLocalHandler(address: string, handler: Vertx.MessageHandler);
-        unregisterHandler(address: string, handler: Vertx.MessageHandler);
+        send<T>(address: string, message: any, handler?: Vertx.MessageHandler<T>);
+        registerHandler<T>(address: string, handler: Vertx.MessageHandler<T>);
+        registerLocalHandler<T>(address: string, handler: Vertx.MessageHandler<T>);
+        unregisterHandler<T>(address: string, handler: Vertx.MessageHandler<T>);
 		onopen: Vertx.VoidHandler;
 		onclose: Vertx.VoidHandler;
-		login(username: string, password: string, handler?: Vertx.MessageHandler);
+		login(username: string, password: string, handler?: Vertx.Handler<any>);
 		close();
 
 	}
